@@ -30,6 +30,10 @@ class BlockStack
 	 * Current top of the stack
 	 */
 	public int iTop  = 3;
+	/**
+	 * Task 1
+	 */
+	int stack_access_counter;
 
 	/**
 	 * stack[0:5] with four defined values
@@ -64,6 +68,7 @@ class BlockStack
 			this.iTop = piSize - 3;
                         this.iSize = piSize;
 		}
+        stack_access_counter = 0;
 	}
 
 	/**
@@ -72,6 +77,7 @@ class BlockStack
 	 */
 	public char pick()
 	{
+		this.stack_access_counter++;
 		return this.acStack[this.iTop];
 	}
 
@@ -81,6 +87,7 @@ class BlockStack
 	 */
 	public char getAt(final int piPosition)
 	{
+		this.stack_access_counter++;
 		return this.acStack[piPosition];
 	}
 
@@ -89,6 +96,7 @@ class BlockStack
 	 */
 	public void push(final char pcBlock)
 	{
+		this.stack_access_counter++;
 		this.acStack[++this.iTop] = pcBlock;
 	}
 
@@ -98,10 +106,29 @@ class BlockStack
 	 */
 	public char pop()
 	{
+		this.stack_access_counter++;
 		char cBlock = this.acStack[this.iTop];
 		this.acStack[this.iTop--] = '$'; // Leave prev. value undefined
 		return cBlock;
 	}
+	/**
+	 * Get acces_counter variable (Task 1)
+	 * @return the number of times the stack was accessed,int
+	 * @author Andres
+	 */
+	public int getAccessCounter(){
+		return this.stack_access_counter;
+	}
+	public int getITop(){
+		return this.iTop;
+	}
+	public int getISize(){
+		return this.iSize;
+	}
+	public boolean isEmpty(){
+		return(this.iTop ==-1);
+	}
+	
 }
 
 // EOF
