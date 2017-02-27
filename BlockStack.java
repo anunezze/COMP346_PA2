@@ -99,7 +99,8 @@ class BlockStack
 	{
 		this.stack_access_counter++;
 		if(this.iTop == 0){
-			this.acStack[this.iTop] = 'a';
+			this.acStack[this.iTop] = pcBlock;
+			this.acStack[++this.iTop] = 'a';
 		}
 		
 		this.acStack[++this.iTop] = pcBlock;
