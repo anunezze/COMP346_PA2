@@ -34,7 +34,7 @@ class BlockStack
 	 * Task 1
 	 * Current times the stack has been accessed.
 	 */
-	int stack_access_counter;
+	private int stack_access_counter;
 
 	/**
 	 * stack[0:5] with four defined values
@@ -98,6 +98,10 @@ class BlockStack
 	public void push(final char pcBlock)
 	{
 		this.stack_access_counter++;
+		if(this.iTop == 0){
+			this.acStack[this.iTop] = 'a';
+		}
+		
 		this.acStack[++this.iTop] = pcBlock;
 	}
 
