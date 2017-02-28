@@ -94,10 +94,12 @@ class BlockStack
 
 	/**
 	 * Standard push operation
+	 * @throws VerifyStackBoundaries 
 	 */
-	public void push(final char pcBlock)
-	{
+	public void push(final char pcBlock) throws VerifyStackBoundaries
+	{	
 		this.stack_access_counter++;
+		this.isFullException();
 		if(this.iTop == 0){
 			this.acStack[this.iTop] = pcBlock;
 			this.acStack[++this.iTop] = 'a';
@@ -109,10 +111,12 @@ class BlockStack
 	/**
 	 * Standard pop operation
 	 * @return ex-top element of the stack, char
+	 * @throws VerifyStackBoundaries 
 	 */
-	public char pop()
+	public char pop() throws VerifyStackBoundaries
 	{
 		this.stack_access_counter++;
+		this.isEmptyException();
 		char cBlock = this.acStack[this.iTop];
 		this.acStack[this.iTop--] = '$'; // Leave prev. value undefined
 		return cBlock;
@@ -133,6 +137,14 @@ class BlockStack
 	}
 	public boolean isEmpty(){
 		return(this.iTop ==-1);
+	}
+	private void isEmptyException() throws VerifyStackBoundaries{
+		if(this.isEmpty())
+			throw new VerifyStackBoundaries("The stack is empty. ");
+	}
+	private void isFullException() throws VerifyStackBoundaries{
+		if(this.iTop==this.iSize)
+			throw new VerifyStackBoundaries("The stack is full!");
 	}
 	
 }
