@@ -244,11 +244,20 @@ public class BlockManager2
 					soStack.pick() + "."
 				);
 			}
+			
+			/*
+			 * Catching VerifyStackBoundaries exception
+			 */
+			catch(VerifyStackBoundaries e){
+				System.err.println("Caught VerifyStackBoundaries : " + e.getMessage());
+				e.printStackTrace(System.err);
+			}
 			catch(Exception e)
 			{
 				reportException(e);
 				System.exit(1);
 			}
+			
 
 
 			phase2();
