@@ -161,8 +161,7 @@ public class BlockManager3
 			 */
 			mutex.P();
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
-
-
+			
 			phase1();
 
 
@@ -200,12 +199,13 @@ public class BlockManager3
 			/**
 			 * Release the mutex
 			 */
-			mutex.V();
+			
 
 			phase2();
 
 
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
+			mutex.V();
 		}
 	} // class AcquireBlock
 
@@ -276,7 +276,7 @@ public class BlockManager3
 				/**
 				 * Release the mutex
 				 */
-				mutex.V();
+				
 			}
 			
 
@@ -285,6 +285,7 @@ public class BlockManager3
 
 
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] terminates.");
+			mutex.V();
 		}
 	} // class ReleaseBlock
 
@@ -332,11 +333,11 @@ public class BlockManager3
 			/**
 			 * Release the mutex
 			 */
-			mutex.V();
+			
 
 
 			phase2();
-
+			mutex.V();
 		}
 	} // class CharStackProber
 
