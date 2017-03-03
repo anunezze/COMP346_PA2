@@ -48,14 +48,14 @@ class BlockStack4
 	/**
 	 * Default constructor
 	 */
-	public BlockStack3()
+	public BlockStack4()
 	{
 	}
 
 	/**
 	 * Supplied size
 	 */
-	public BlockStack3(final int piSize)
+	public BlockStack4(final int piSize)
 	{
 
 

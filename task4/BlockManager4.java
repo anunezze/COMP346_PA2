@@ -18,7 +18,7 @@ public class BlockManager4
 	/**
 	 * The stack itself
 	 */
-	private static BlockStack3 soStack = new BlockStack3();
+	private static BlockStack4 soStack = new BlockStack4();
 
 	/**
 	 * Number of threads dumping stack
@@ -317,9 +317,9 @@ public class BlockManager4
 					for(int s = 0; s < soStack.getISize(); s++)
 						System.out.print
 						(
-							(s == BlockManager3.soStack.getITop() ? "(" : "[") +
-							BlockManager3.soStack.getAt(s) +
-							(s == BlockManager3.soStack.getITop() ? ")" : "]")
+							(s == BlockManager4.soStack.getITop() ? "(" : "[") +
+							BlockManager4.soStack.getAt(s) +
+							(s == BlockManager4.soStack.getITop() ? ")" : "]")
 						);
 
 					System.out.println(".");
