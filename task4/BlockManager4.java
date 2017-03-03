@@ -1,4 +1,4 @@
-package task3;
+package task4;
 // Import (aka include) some stuff.
 import common.*;
 
@@ -13,7 +13,7 @@ import common.*;
  * $Last Revision Date: 2017/02/08 $
 
  */
-public class BlockManager3
+public class BlockManager4
 {
 	/**
 	 * The stack itself

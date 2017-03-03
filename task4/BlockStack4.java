@@ -1,4 +1,4 @@
-package task3;
+package task4;
 //Import (aka include) some stuff.
 import common.*;
 
@@ -13,7 +13,7 @@ import common.*;
  * Inspired by an earlier code by Prof. D. Probst
 
  */
-class BlockStack3
+class BlockStack4
 {
 	/**
 	 * # of letters in the English alphabet + 2
