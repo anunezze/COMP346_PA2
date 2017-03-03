@@ -156,15 +156,15 @@ public class BlockManager3
 
 		public void run()
 		{
-			/**
-			 * Get the mutex
-			 */
-			mutex.P();
+			
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
 			
 			phase1();
 
-
+			/**
+			 * Get the mutex
+			 */
+			mutex.P();
 			try
 			{
 				System.out.println("AcquireBlock thread [TID=" + this.iTID + "] requests Ms block.");
@@ -222,16 +222,16 @@ public class BlockManager3
 
 		public void run()
 		{
-			/**
-			 * Get the mutex
-			 */
-			mutex.P();
+			
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] starts executing.");
 
 
 			phase1();
-
-
+			
+			/**
+			 * Get the mutex
+			 */
+			mutex.P();
 			try
 			{
 				if(soStack.isEmpty() == false)
@@ -297,13 +297,14 @@ public class BlockManager3
 	{
 		public void run()
 		{
+			
+			
+			phase1();
+			
 			/**
 			 * Get the mutex
 			 */
 			mutex.P();
-			
-			phase1();
-
 
 			try
 			{
