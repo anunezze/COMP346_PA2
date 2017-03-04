@@ -39,11 +39,10 @@ public class BlockManager4
 	/*
 	 * For synchronization
 	 */
-
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	//private static Semaphore s1 = new Semaphore(...);
+	private static Semaphore s1 = new Semaphore(-9);
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
@@ -158,13 +157,14 @@ public class BlockManager4
 		{
 			
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
-			
+			mutex.P();
 			phase1();
-
+			s1.V();
+			
 			/**
 			 * Get the mutex
 			 */
-			mutex.P();
+			
 			try
 			{
 				System.out.println("AcquireBlock thread [TID=" + this.iTID + "] requests Ms block.");
@@ -201,9 +201,11 @@ public class BlockManager4
 			 */
 			
 			mutex.V();
+			
+			s1.P();
 			phase2();
 
-
+			s1.V();
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
 			
 		}
@@ -225,13 +227,13 @@ public class BlockManager4
 			
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] starts executing.");
 
-
+			mutex.P();
 			phase1();
-			
+			s1.V();
 			/**
 			 * Get the mutex
 			 */
-			mutex.P();
+			
 			try
 			{
 				if(soStack.isEmpty() == false)
@@ -281,8 +283,13 @@ public class BlockManager4
 			
 
 			mutex.V();
+			
+			//mutex.P();
+			//while(s1.isLocked());
+			s1.P();
+			//mutex.V();
 			phase2();
-
+			s1.V();
 
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] terminates.");
 			
@@ -298,13 +305,13 @@ public class BlockManager4
 		public void run()
 		{
 			
-			
+			mutex.P();
 			phase1();
-			
+			s1.V();
 			/**
 			 * Get the mutex
 			 */
-			mutex.P();
+			
 
 			try
 			{
@@ -337,7 +344,12 @@ public class BlockManager4
 			
 
 			mutex.V();
+			//mutex.P();
+			//while(s1.isLocked());
+			s1.P();
+			//mutex.V();
 			phase2();
+			s1.V();
 			
 		}
 	} // class CharStackProber
