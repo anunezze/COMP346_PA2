@@ -34,7 +34,7 @@ public class BlockManager4
 	 * For atomicity we declare a semaphore and we set it to one
 	 * so it is accessible.
 	 */
-	private static Semaphore mutex = new Semaphore(1);
+	private static Semaphore mutex = new Semaphore(1); // This semaphore is for mutual exclusion between thread's critical sections
 
 	/*
 	 * For synchronization
@@ -42,7 +42,7 @@ public class BlockManager4
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	private static Semaphore s1 = new Semaphore(-9);
+	private static Semaphore s1 = new Semaphore(-9);// int -9 refers to the 10 threats running.
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
@@ -157,13 +157,9 @@ public class BlockManager4
 		{
 			
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
-			mutex.P();
+			mutex.P(); // get the mutex
 			phase1();
-			s1.V();
-			
-			/**
-			 * Get the mutex
-			 */
+			s1.V(); // 
 			
 			try
 			{
@@ -196,16 +192,12 @@ public class BlockManager4
 				System.exit(1);
 			}
 			
-			/**
-			 * Release the mutex
-			 */
+			mutex.V(); // release the mutex
 			
-			mutex.V();
-			
-			s1.P();
+			s1.P(); // Waits for all threats to finish phase 1
 			phase2();
 
-			s1.V();
+			s1.V(); //
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
 			
 		}
@@ -227,12 +219,9 @@ public class BlockManager4
 			
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] starts executing.");
 
-			mutex.P();
+			mutex.P();//Get the mutex
 			phase1();
-			s1.V();
-			/**
-			 * Get the mutex
-			 */
+			s1.V();	// 
 			
 			try
 			{
@@ -275,19 +264,14 @@ public class BlockManager4
 			}
 			finally
 			{
-				/**
-				 * Release the mutex
-				 */
+				
 				
 			}
 			
 
-			mutex.V();
+			mutex.V(); // releases the mutex
 			
-			//mutex.P();
-			//while(s1.isLocked());
-			s1.P();
-			//mutex.V();
+			s1.P();// Waits for all threats to finish phase 1
 			phase2();
 			s1.V();
 
@@ -305,13 +289,10 @@ public class BlockManager4
 		public void run()
 		{
 			
-			mutex.P();
+			mutex.P(); // get the mutex
 			phase1();
-			s1.V();
-			/**
-			 * Get the mutex
-			 */
-			
+			s1.V();	//
+					
 
 			try
 			{
@@ -338,18 +319,12 @@ public class BlockManager4
 				reportException(e);
 				System.exit(1);
 			}
-			/**
-			 * Release the mutex
-			 */
-			
 
-			mutex.V();
-			//mutex.P();
-			//while(s1.isLocked());
-			s1.P();
-			//mutex.V();
+
+			mutex.V(); // releases the mutex
+			s1.P();		// Waits for all threats to finish phase 1
 			phase2();
-			s1.V();
+			s1.V();		
 			
 		}
 	} // class CharStackProber
