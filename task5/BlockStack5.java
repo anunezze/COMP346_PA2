@@ -4,7 +4,7 @@
  * Andres Nunez			ID: 27194331
  */
 
-package task2;
+package task5;
 //Import (aka include) some stuff.
 import common.*;
 
@@ -19,7 +19,7 @@ import common.*;
  * Inspired by an earlier code by Prof. D. Probst
 
  */
-class BlockStack2
+class BlockStack5
 {
 	/**
 	 * # of letters in the English alphabet + 2
@@ -54,14 +54,14 @@ class BlockStack2
 	/**
 	 * Default constructor
 	 */
-	public BlockStack2()
+	public BlockStack5()
 	{
 	}
 
 	/**
 	 * Supplied size
 	 */
-	public BlockStack2(final int piSize)
+	public BlockStack5(final int piSize)
 	{
 
 

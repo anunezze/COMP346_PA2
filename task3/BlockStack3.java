@@ -1,3 +1,9 @@
+/*
+ * Programming assignment 2, COMP 346
+ * Eglen  Cecaj 		ID: 26746047
+ * Andres Nunez			ID: 27194331
+ */
+
 package task3;
 //Import (aka include) some stuff.
 import common.*;

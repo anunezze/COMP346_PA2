@@ -1,3 +1,9 @@
+/*
+ * Programming assignment 2, COMP 346
+ * Eglen  Cecaj 		ID: 26746047
+ * Andres Nunez			ID: 27194331
+ */
+
 package task3;
 // Import (aka include) some stuff.
 import common.*;
@@ -162,7 +168,8 @@ public class BlockManager3
 			phase1();
 
 			/**
-			 * Get the mutex
+			 * Makes semaphore value 0 so no other thread can enter the
+			 * critical section before its value becomes one.
 			 */
 			mutex.P();
 			try
@@ -197,7 +204,7 @@ public class BlockManager3
 			}
 			
 			/**
-			 * Release the mutex
+			 * Switch the mutex value
 			 */
 			
 			mutex.V();
@@ -229,7 +236,8 @@ public class BlockManager3
 			phase1();
 			
 			/**
-			 * Get the mutex
+			 * Makes semaphore value 0 so no other thread can enter the
+			 * critical section before its value becomes one.
 			 */
 			mutex.P();
 			try
@@ -274,7 +282,7 @@ public class BlockManager3
 			finally
 			{
 				/**
-				 * Release the mutex
+				 * Switch the mutex value
 				 */
 				
 			}
@@ -302,7 +310,8 @@ public class BlockManager3
 			phase1();
 			
 			/**
-			 * Get the mutex
+			 * Makes semaphore value 0 so no other thread can enter the
+			 * critical section before its value becomes one.
 			 */
 			mutex.P();
 
@@ -332,7 +341,7 @@ public class BlockManager3
 				System.exit(1);
 			}
 			/**
-			 * Release the mutex
+			 * Switch the mutex value
 			 */
 			
 

@@ -4,7 +4,7 @@
  * Andres Nunez			ID: 27194331
  */
 
-package task2;
+package task5;
 // Import (aka include) some stuff.
 import common.*;
 
@@ -19,12 +19,12 @@ import common.*;
  * $Last Revision Date: 2017/02/08 $
 
  */
-public class BlockManager2
+public class BlockManager5
 {
 	/**
 	 * The stack itself
 	 */
-	private static BlockStack2 soStack = new BlockStack2();
+	private static BlockStack5 soStack = new BlockStack5();
 
 	/**
 	 * Number of threads dumping stack
@@ -37,24 +37,24 @@ public class BlockManager2
 	private static int siThreadSteps = 5;
 
 	/**
-	 * For atomicity
+	 * For atomicity we declare a semaphore and we set it to one
+	 * so it is accessible.
 	 */
-	//private static Semaphore mutex = new Semaphore(...);
+	private static Semaphore mutex = new Semaphore(1); // This semaphore is for mutual exclusion between thread's critical sections
 
 	/*
 	 * For synchronization
 	 */
-
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	//private static Semaphore s1 = new Semaphore(...);
+	private static Semaphore s1 = new Semaphore(-9);// int -9 refers to the 10 threads running.
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
 	 * in the thread creation order
 	 */
-	//private static Semaphore s2 = new Semaphore(...);
+	private static Semaphore s2 = new Semaphore(1);
 
 
 	// The main()
@@ -161,12 +161,12 @@ public class BlockManager2
 
 		public void run()
 		{
+			
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
-
-
+			mutex.P(); 
 			phase1();
-
-
+			s1.V();
+			
 			try
 			{
 				System.out.println("AcquireBlock thread [TID=" + this.iTID + "] requests Ms block.");
@@ -197,11 +197,25 @@ public class BlockManager2
 				reportException(e);
 				System.exit(1);
 			}
-
+			
+			mutex.V();
+			
+			s1.P(); // Waits for all threats to finish phase1
+			s1.V(); // Increases s1 value to give access to other threads so they can execute their phase1
+			
+			s2.P(); //Lets in only one thread to be checked for its turn
+			while(!turnTestAndSet()){
+				/*
+				 * Checking threads one by one for matching turn
+				 */
+				s2.V(); 
+				s2.P();
+			}
 			phase2();
-
+			s2.V();// allowing other threads to execute their phase2
 
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
+			
 		}
 	} // class AcquireBlock
 
@@ -218,12 +232,13 @@ public class BlockManager2
 
 		public void run()
 		{
+			
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] starts executing.");
 
-
+			mutex.P();
 			phase1();
-
-
+			s1.V();
+			
 			try
 			{
 				if(soStack.isEmpty() == false)
@@ -263,13 +278,32 @@ public class BlockManager2
 				reportException(e);
 				System.exit(1);
 			}
+			finally
+			{
+				
+				
+			}
 			
 
-
+			mutex.V();
+			
+			s1.P(); // Waits for all threats to finish phase1
+			s1.V(); // Increases s1 value to give access to other threads so they can execute their phase1
+			
+			s2.P(); //Lets in only one thread to be checked for its turn
+			while(!turnTestAndSet()){
+				/*
+				 * Checking threads one by one for matching turn
+				 */
+				s2.V(); 
+				s2.P();
+			}
 			phase2();
-
+			s2.V();// allowing other threads to execute their phase2
+			
 
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] terminates.");
+			
 		}
 	} // class ReleaseBlock
 
@@ -281,9 +315,11 @@ public class BlockManager2
 	{
 		public void run()
 		{
+			
+			mutex.P(); 
 			phase1();
-
-
+			s1.V();	
+					
 			try
 			{
 				for(int i = 0; i < siThreadSteps; i++)
@@ -295,9 +331,9 @@ public class BlockManager2
 					for(int s = 0; s < soStack.getISize(); s++)
 						System.out.print
 						(
-							(s == BlockManager2.soStack.getITop() ? "(" : "[") +
-							BlockManager2.soStack.getAt(s) +
-							(s == BlockManager2.soStack.getITop() ? ")" : "]")
+							(s == BlockManager5.soStack.getITop() ? "(" : "[") +
+							BlockManager5.soStack.getAt(s) +
+							(s == BlockManager5.soStack.getITop() ? ")" : "]")
 						);
 
 					System.out.println(".");
@@ -311,8 +347,22 @@ public class BlockManager2
 			}
 
 
+			mutex.V(); 
+			
+			s1.P(); // Waits for all threats to finish phase1
+			s1.V(); // Increases s1 value to give access to other threads so they can execute their phase1
+			
+			s2.P(); //Lets in only one thread to be checked for its turn
+			while(!turnTestAndSet()){
+				/*
+				 * Checking threads one by one for matching turn
+				 */
+				s2.V(); 
+				s2.P();
+			}
 			phase2();
-
+			s2.V();// allowing other threads to execute their phase2		
+			
 		}
 	} // class CharStackProber
 

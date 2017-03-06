@@ -1,3 +1,9 @@
+/*
+ * Programming assignment 2, COMP 346
+ * Eglen  Cecaj 		ID: 26746047
+ * Andres Nunez			ID: 27194331
+ */
+
 package task4;
 // Import (aka include) some stuff.
 import common.*;
@@ -42,7 +48,7 @@ public class BlockManager4
 	/**
 	 * s1 is to make sure phase I for all is done before any phase II begins
 	 */
-	private static Semaphore s1 = new Semaphore(-9);// int -9 refers to the 10 threats running.
+	private static Semaphore s1 = new Semaphore(-9);// int -9 refers to the 10 threads running.
 
 	/**
 	 * s2 is for use in conjunction with Thread.turnTestAndSet() for phase II proceed
@@ -157,9 +163,18 @@ public class BlockManager4
 		{
 			
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] starts executing.");
-			mutex.P(); // get the mutex
+			/**
+			 * Makes semaphore value 0 so no other thread can enter the
+			 * critical section before its value becomes one.
+			 */
+			mutex.P(); 
 			phase1();
-			s1.V(); // 
+			
+			/**
+			 * Increase the counting semaphore (s1) value evry time a thread accesses this
+			 * section
+			 */
+			s1.V(); 
 			
 			try
 			{
@@ -192,12 +207,16 @@ public class BlockManager4
 				System.exit(1);
 			}
 			
-			mutex.V(); // release the mutex
+			mutex.V(); // Switches mutex value
 			
-			s1.P(); // Waits for all threats to finish phase 1
+			s1.P(); // Waits for all threads to finish phase 1
 			phase2();
 
-			s1.V(); //
+			/**
+			 * Increase the counting semaphore (s1) value evry time a thread accesses this
+			 * section and gives access to other threads.
+			 */
+			s1.V(); 
 			System.out.println("AcquireBlock thread [TID=" + this.iTID + "] terminates.");
 			
 		}
@@ -218,10 +237,19 @@ public class BlockManager4
 		{
 			
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] starts executing.");
-
-			mutex.P();//Get the mutex
+			
+			/**
+			 * Makes semaphore value 0 so no other thread can enter the
+			 * critical section before its value becomes one.
+			 */
+			mutex.P();
 			phase1();
-			s1.V();	// 
+			
+			/**
+			 * Increase the counting semaphore (s1) value evry time a thread accesses this
+			 * section
+			 */
+			s1.V();	
 			
 			try
 			{
@@ -269,10 +297,15 @@ public class BlockManager4
 			}
 			
 
-			mutex.V(); // releases the mutex
+			mutex.V(); // Switches mutex value
 			
 			s1.P();// Waits for all threats to finish phase 1
 			phase2();
+			
+			/**
+			 * Increase the counting semaphore (s1) value evry time a thread accesses this
+			 * section and gives access to other threads.
+			 */
 			s1.V();
 
 			System.out.println("ReleaseBlock thread [TID=" + this.iTID + "] terminates.");
@@ -289,9 +322,18 @@ public class BlockManager4
 		public void run()
 		{
 			
-			mutex.P(); // get the mutex
+			/**
+			 * Makes semaphore value 0 so no other thread can enter the
+			 * critical section before its value becomes one.
+			 */
+			mutex.P(); 
 			phase1();
-			s1.V();	//
+			
+			/**
+			 * Increase the counting semaphore (s1) value evry time a thread accesses this
+			 * section
+			 */
+			s1.V();	
 					
 
 			try
@@ -321,9 +363,14 @@ public class BlockManager4
 			}
 
 
-			mutex.V(); // releases the mutex
+			mutex.V(); // Switches mutex value
 			s1.P();		// Waits for all threats to finish phase 1
 			phase2();
+			
+			/**
+			 * Increase the counting semaphore (s1) value evry time a thread accesses this
+			 * section and gives access to other threads.
+			 */
 			s1.V();		
 			
 		}
